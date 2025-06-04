@@ -1,0 +1,13 @@
+# Original dependencies
+pydub>=0.25.1
+
+# New Whisper dependencies
+faster-whisper>=0.10.0
+torch>=2.0.0
+numpy>=1.21.0
+
+# Audio processing
+ffmpeg-python>=0.2.0
+
+# For fallback compatibility
+openai-whisper>=20231117  # Optional fallback

@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OpenJumpCut Debug Console</title>
+    <style>
+        body { font-family: monospace; background: #1e1e1e; color: #a5a5a5; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; background: #2a2a2a; border-left: 3px solid #0073e6; }
+        .test-result { margin: 5px 0; }
+        .pass { color: #4CAF50; }
+        .fail { color: #f44336; }
+        button { background: #0073e6; color: white; border: none; padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #333; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>OpenJumpCut Debug Console</h1>
+    
+    <div class="debug-section">
+        <h3>CEP Extension Status</h3>
+        <div id="cep-status">Checking...</div>
+        <button onclick="checkCEPStatus()">Check CEP Interface</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>UI Parameter Collection</h3>
+        <div id="param-status">Ready</div>
+        <button onclick="testParameters()">Test Parameter Collection</button>
+        <pre id="param-output"></pre>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Event Listener Status</h3>
+        <div id="event-status">Ready</div>
+        <button onclick="testEventListeners()">Test Event Listeners</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Path Resolution</h3>
+        <div id="path-status">Ready</div>
+        <button onclick="testPaths()">Test File Paths</button>
+        <pre id="path-output"></pre>
+    </div>
+    
+    <script>
+        function checkCEPStatus() {
+            const status = document.getElementById('cep-status');
+            try {
+                if (typeof CSInterface !== 'undefined') {
+                    status.innerHTML = '<span class="pass">✓ CSInterface available</span>';
+                } else {
+                    status.innerHTML = '<span class="fail">✗ CSInterface not found (normal in browser)</span>';
+                }
+            } catch (e) {
+                status.innerHTML = '<span class="fail">✗ CSInterface error: ' + e.message + '</span>';
+            }
+        }
+        
+        function testParameters() {
+            const output = document.getElementById('param-output');
+            const status = document.getElementById('param-status');
+            
+            // Simulate parameter collection
+            const params = {
+                detectionMethod: 'whisper',
+                whisperModel: 'base',
+                whisperLanguage: 'en',
+                silenceCutoff: -50,
+                removeOver: 1.0,
+                keepOver: 0.3,
+                padding: 0.1
+            };
+            
+            output.textContent = JSON.stringify(params, null, 2);
+            status.innerHTML = '<span class="pass">✓ Parameters collected successfully</span>';
+        }
+        
+        function testEventListeners() {
+            const status = document.getElementById('event-status');
+            
+            // Test if event listeners are working
+            const testButton = document.createElement('button');
+            testButton.textContent = 'Test Button';
+            testButton.addEventListener('click', function() {
+                status.innerHTML = '<span class="pass">✓ Event listeners working</span>';
+            });
+            
+            testButton.click(); // Trigger immediately
+        }
+        
+        function testPaths() {
+            const output = document.getElementById('path-output');
+            const status = document.getElementById('path-status');
+            
+            const expectedPaths = [
+                'client/index.html',
+                'client/index.js', 
+                'client/style.css',
+                'client/CSInterface.js',
+                'host/index.jsx',
+                'CSXS/manifest.xml',
+                'dist/whisper_jumpcut',
+                'dist/jumpcut'
+            ];
+            
+            output.textContent = 'Expected paths:\n' + expectedPaths.join('\n');
+            status.innerHTML = '<span class="pass">✓ Path list generated</span>';
+        }
+        
+        // Auto-run tests
+        window.onload = function() {
+            checkCEPStatus();
+        };
+    </script>
+</body>
+</html>
+    

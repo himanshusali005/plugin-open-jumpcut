@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OpenJumpCut UI Test - Whisper Enhanced</title>
+    <link rel="stylesheet" type="text/css" href="client/style.css">
+    <style>
+        body { 
+            background: #2a2a2a; 
+            padding: 20px;
+            font-family: "Source Sans Pro", sans-serif;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .test-header {
+            color: #0073e6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .output {
+            background: #333;
+            padding: 10px;
+            border-radius: 3px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #a5a5a5;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h2 class="test-header">OpenJumpCut UI Test</h2>
+        
+        <!-- Copy the enhanced UI from client/index.html -->
+        <!-- Detection Method Selection -->
+        <div class="optionwrapper">
+            <div class="headingdiv">
+                <h4>Detection Method</h4>
+            </div>
+            <div class="jumpcutoption">
+                <select id="detectionMethod" class="dropdown">
+                    <option value="whisper">AI Speech Detection (Whisper)</option>
+                    <option value="loudness">Loudness-based (Classic)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Whisper Options -->
+        <div id="whisperOptions">
+            <div class="optionwrapper">
+                <div class="headingdiv">
+                    <h4>AI Model Size</h4>
+                </div>
+                <div class="jumpcutoption">
+                    <select id="whisperModel" class="dropdown">
+                        <option value="tiny">Tiny (Fastest, Lower Accuracy)</option>
+                        <option value="base" selected>Base (Balanced)</option>
+                        <option value="small">Small (Good Accuracy)</option>
+                        <option value="medium">Medium (High Accuracy)</option>
+                        <option value="large">Large (Highest Accuracy, Slower)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="optionwrapper">
+                <div class="headingdiv">
+                    <h4>Language</h4>
+                </div>
+                <div class="jumpcutoption">
+                    <select id="whisperLanguage" class="dropdown">
+                        <option value="">Auto-detect</option>
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ru">Russian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="zh">Chinese</option>
+                        <option value="ar">Arabic</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loudness Options -->
+        <div id="loudnessOptions">
+            <div class="optionwrapper">
+                <div class="headingdiv">
+                    <h4>Cutoff <span id="cutoffNote">(Loudness method only)</span></h4>
+                </div>
+                <div class="jumpcutoption">
+                    <input type="range" id="silenceCutoff" min="-100" max="-1" value="-50">
+                    <input type="number" class="number-input" min="-100" max="-1" value="-50">
+                    <h4>dB</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="optionwrapper">
+            <h4>Minimum Silence Length</h4>
+            <div class="jumpcutoption">
+                <input type="range" id="removeOver" min="0.1" max="2" value="1.0" step="0.1">
+                <input type="number" class="number-input" min="0.1" value="1.0" step="0.1">
+                <h4>seconds</h4>
+            </div>
+        </div>
+
+        <div class="optionwrapper">
+            <h4>Minimum Segment Length</h4>
+            <div class="jumpcutoption">
+                <input type="range" id="keepOver" min="0.1" max="2" value="0.3" step="0.1">
+                <input type="number" class="number-input" min="0.1" value="0.3" step="0.1">
+                <h4>seconds</h4>
+            </div>
+        </div>
+
+        <div class="optionwrapper">
+            <h4>Padding</h4>
+            <div class="jumpcutoption">
+                <input type="range" id="padding" min="0.0" max="2" value="0.1" step="0.1">
+                <input type="number" class="number-input" min="0.0" value="0.1" step="0.1">
+                <h4>seconds</h4>
+            </div>
+        </div>
+
+        <label for="backupCheck">Make backup of sequence</label>
+        <input type="checkbox" id="backupCheck" name="backupCheck">
+
+        <!-- Progress Section -->
+        <div id="progressSection" style="display: none;">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div id="progressText">Processing...</div>
+        </div>
+
+        <button id="jumpcutbutton" onclick="testUIFunction()">Test UI Parameters</button>
+        
+        <div class="output" id="output">UI test output will appear here...</div>
+    </div>
+
+    <script>
+        // Test functions for the UI (without CEP dependencies)
+        function setupDetectionMethodToggle() {
+            const detectionMethod = document.getElementById('detectionMethod');
+            const whisperOptions = document.getElementById('whisperOptions');
+            const loudnessOptions = document.getElementById('loudnessOptions');
+            const cutoffNote = document.getElementById('cutoffNote');
+            
+            function toggleOptions() {
+                if (detectionMethod.value === 'whisper') {
+                    whisperOptions.style.display = 'block';
+                    cutoffNote.style.display = 'inline';
+                } else {
+                    whisperOptions.style.display = 'none';
+                    cutoffNote.style.display = 'none';
+                }
+            }
+            
+            detectionMethod.addEventListener('change', toggleOptions);
+            toggleOptions();
+        }
+
+        function showProgress(show = true, text = "Processing...") {
+            const progressSection = document.getElementById('progressSection');
+            const progressText = document.getElementById('progressText');
+            const button = document.getElementById('jumpcutbutton');
+            
+            if (show) {
+                progressSection.style.display = 'block';
+                progressText.textContent = text;
+                button.disabled = true;
+                button.textContent = 'Processing...';
+            } else {
+                progressSection.style.display = 'none';
+                button.disabled = false;
+                button.textContent = 'Test UI Parameters';
+            }
+        }
+
+        function updateProgress(percentage, text) {
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            
+            progressBar.style.width = percentage + '%';
+            if (text) {
+                progressText.textContent = text;
+            }
+        }
+
+        function getJumpcutParams() {
+            let sliderIds = ['silenceCutoff', 'removeOver', 'keepOver', 'padding'];
+            let jumpcutParams = {};
+            
+            sliderIds.forEach(function(id) {
+                let slider = document.getElementById(id);
+                let numberInput = slider.nextElementSibling;
+                jumpcutParams[id] = numberInput.value;
+            });
+
+            // Add detection method and Whisper parameters
+            const detectionMethod = document.getElementById('detectionMethod').value;
+            jumpcutParams['method'] = detectionMethod;
+            
+            if (detectionMethod === 'whisper') {
+                jumpcutParams['model'] = document.getElementById('whisperModel').value;
+                const language = document.getElementById('whisperLanguage').value;
+                if (language) {
+                    jumpcutParams['language'] = language;
+                }
+            }
+
+            return jumpcutParams;
+        }
+
+        function testUIFunction() {
+            const params = getJumpcutParams();
+            const output = document.getElementById('output');
+            
+            // Simulate progress
+            showProgress(true, "Testing UI...");
+            updateProgress(25, "Gathering parameters...");
+            
+            setTimeout(() => {
+                updateProgress(50, "Validating options...");
+                setTimeout(() => {
+                    updateProgress(75, "Formatting output...");
+                    setTimeout(() => {
+                        updateProgress(100, "Complete!");
+                        setTimeout(() => {
+                            showProgress(false);
+                            output.innerHTML = `
+<b>Test Results:</b><br>
+<b>Detection Method:</b> ${params.method}<br>
+${params.method === 'whisper' ? 
+    `<b>Whisper Model:</b> ${params.model}<br>
+<b>Language:</b> ${params.language || 'Auto-detect'}<br>` : ''
+}
+<b>Silence Cutoff:</b> ${params.silenceCutoff} dB<br>
+<b>Min Silence Length:</b> ${params.removeOver}s<br>
+<b>Min Segment Length:</b> ${params.keepOver}s<br>
+<b>Padding:</b> ${params.padding}s<br>
+<b>Backup:</b> ${document.getElementById('backupCheck').checked}<br>
+<br>
+<b>JSON Parameters:</b><br>
+${JSON.stringify(params, null, 2)}
+                            `;
+                        }, 500);
+                    }, 500);
+                }, 500);
+            }, 500);
+        }
+
+        function initSliders() {
+            let sliderIds = ['silenceCutoff', 'removeOver', 'keepOver', 'padding'];
+            
+            sliderIds.forEach(function(id) {
+                let slider = document.getElementById(id);
+                let numberInput = slider.nextElementSibling;
+                
+                slider.oninput = function() {
+                    numberInput.value = slider.value;
+                };
+                
+                numberInput.oninput = function() {
+                    slider.value = numberInput.value;
+                };
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDetectionMethodToggle();
+            initSliders();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+/* Enhanced CSS for OpenJumpCut Whisper Extension */
+/* Addresses UI responsiveness, error handling, and professional appearance */
+
+/* Base styling */
+h4 {
+  color: #a5a5a5;
+  font-size: 12px;
+  font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+
+.optionwrapper {
+  margin: 10px 5px;
+}
+
+.headingdiv {
+  margin-bottom: 5px;
+}
+
+.jumpcutoption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Enhanced form controls */
+input[type=range] {
+  width: 100%;
+  height: 15px;
+  background: #3c3c3c;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 3px;
+}
+
+input[type=range]:hover {
+  opacity: 1;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #0073e6;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #0073e6;
+  cursor: pointer;
+  border-radius: 50%;
+  border: none;
+}
+
+.number-input {
+  width: 50px;
+  background: #3c3c3c;
+  border: 1px solid #555;
+  color: #a5a5a5;
+  padding: 3px 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  transition: border-color 0.3s;
+}
+
+.number-input:focus {
+  outline: none;
+  border-color: #0073e6;
+  box-shadow: 0 0 3px rgba(0, 115, 230, 0.5);
+}
+
+/* Enhanced dropdowns */
+.dropdown {
+  background: #3c3c3c;
+  border: 1px solid #555;
+  color: #a5a5a5;
+  padding: 5px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dropdown:hover {
+  border-color: #0073e6;
+  background: #424242;
+}
+
+.dropdown:focus {
+  outline: none;
+  border-color: #0073e6;
+  box-shadow: 0 0 3px rgba(0, 115, 230, 0.5);
+}
+
+/* Progress indicators */
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background: #3c3c3c;
+  border-radius: 10px;
+  margin: 10px 0;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0073e6, #00a8ff);
+  width: 0%;
+  transition: width 0.3s ease;
+  border-radius: 10px;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 25%, 
+    rgba(255, 255, 255, 0.1) 25%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    transparent 50%, 
+    transparent 75%, 
+    rgba(255, 255, 255, 0.1) 75%);
+  background-size: 20px 20px;
+  animation: progressStripes 1s linear infinite;
+}
+
+@keyframes progressStripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 0; }
+}
+
+#progressText {
+  color: #a5a5a5;
+  font-size: 12px;
+  text-align: center;
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+#progressSection {
+  margin: 15px 5px;
+  padding: 15px;
+  background: rgba(60, 60, 60, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 115, 230, 0.2);
+}
+
+/* Status sections */
+.error-section,
+.warning-section,
+.success-section {
+  margin: 10px 5px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.error-section {
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: #ff6b6b;
+}
+
+.warning-section {
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  color: #ffd93d;
+}
+
+.success-section {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.3);
+  color: #81c784;
+}
+
+.error-message,
+.warning-message,
+.success-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.error-message::before {
+  content: "⚠️";
+  flex-shrink: 0;
+}
+
+.warning-message::before {
+  content: "⚠️";
+  flex-shrink: 0;
+}
+
+.success-message::before {
+  content: "✅";
+  flex-shrink: 0;
+}
+
+/* Method-specific styling */
+#whisperOptions {
+  border-left: 3px solid #0073e6;
+  padding-left: 15px;
+  margin-left: 8px;
+  background: rgba(0, 115, 230, 0.05);
+  border-radius: 0 6px 6px 0;
+  transition: all 0.3s ease;
+}
+
+#loudnessOptions {
+  border-left: 3px solid #ff6b35;
+  padding-left: 15px;
+  margin-left: 8px;
+  background: rgba(255, 107, 53, 0.05);
+  border-radius: 0 6px 6px 0;
+  transition: all 0.3s ease;
+}
+
+#cutoffNote {
+  font-style: italic;
+  opacity: 0.7;
+  font-size: 10px;
+  transition: opacity 0.3s;
+}
+
+/* Enhanced button styling */
+button {
+  background: linear-gradient(135deg, #0073e6, #005bb5);
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 15px 5px 10px 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  width: calc(100% - 10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #005bb5, #004494);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+  background: linear-gradient(135deg, #666, #555);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  margin: 8px 8px 15px 8px;
+  width: 16px;
+  height: 16px;
+  accent-color: #0073e6;
+  cursor: pointer;
+}
+
+label {
+  color: #a5a5a5;
+  font-size: 12px;
+  font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+label:hover {
+  color: #c5c5c5;
+}
+
+/* Responsive design for smaller panels */
+@media (max-width: 400px) {
+  .jumpcutoption {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  
+  .number-input {
+    width: 100%;
+    max-width: 80px;
+  }
+  
+  button {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Accessibility improvements */
+*:focus {
+  outline: 2px solid #0073e6;
+  outline-offset: 2px;
+}
+
+button:focus,
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 115, 230, 0.4);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dropdown,
+  .number-input {
+    border-width: 2px;
+  }
+  
+  .progress-container {
+    border: 2px solid #0073e6;
+  }
+  
+  button {
+    border: 2px solid #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .progress-bar::before {
+    animation: none;
+  }
+}
+
+/* Dark theme enhancements */
+@media (prefers-color-scheme: dark) {
+  .dropdown,
+  .number-input {
+    background: #2a2a2a;
+    border-color: #666;
+  }
+  
+  .progress-container {
+    background: #2a2a2a;
+  }
+  
+  .error-section {
+    background: rgba(244, 67, 54, 0.15);
+  }
+  
+  .warning-section {
+    background: rgba(255, 193, 7, 0.15);
+  }
+  
+  .success-section {
+    background: rgba(76, 175, 80, 0.15);
+  }
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid #transparent;
+  border-top: 2px solid #0073e6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Tooltip system */
+.tooltip {
+  position: relative;
+  cursor: help;
+}
+
+.tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 1000;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #333;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+
+.tooltip:hover::before,
+.tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
